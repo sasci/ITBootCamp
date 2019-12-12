@@ -21,14 +21,19 @@ public class SequantialSearch {
 	
 	public static int seqSearch(int[] array, int searchInput) {
 		int index=-1;
+		int count=0;
 		for (int i = 0; i < array.length; i++) {
+			count++;
 			if(array[i]==searchInput) {
 				index=i;
 				break;
 						
 			}
+			
 		}
+		System.out.println("Count : "+count);
 		return index;
+		
 	}
 	
 	
