@@ -1,7 +1,9 @@
 package hw;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 enum Item {
 	GIYIM (10),
@@ -11,53 +13,52 @@ enum Item {
 	
 	private final int price;
 	
-	Item(final int price){
-		this.price=price;
+
+	private Item(int price) {
+		this.price = price;
 	}
 
 	public int getPrice() {
 		return price;
 	}
+	
 }
 
 public class Basket {
-	
-	private static List<Item> items=new ArrayList<Item>();
-	private static  int totalPrice;
+	private List<Item> items;
+	private static int totalPrice=0;
 	
 	public Basket() {
+		this.items=new ArrayList<Item>();
 	}
-	
 		
-	void addItem(Item item, int numberOfItem ) {
+	public void addItem(Item item, int numberOfItem ) {
 		for (int i = 0; i < numberOfItem; i++) {
 			items.add(item);
+			totalPrice+=item.getPrice();
 		}
 	}
 	
-	void removeItem(Item item, int numberOfItem ) {
-		int nofItems=0;
+	public void removeItem(Item item, int numberOfItem ) {
+		
+		int nofItemsInList=0;
 		for (Item item2 : items) {
 			if (item2==item) {
-				nofItems++;
+				nofItemsInList++;
 			}
 		}
-		
-		
-		for (int i = 0; i < numberOfItem; i++) {
-			if (nofItems>=numberOfItem) {
+		int nOfRemoved=numberOfItem;
+		for (int i = 0; i < nOfRemoved; i++) {
+			if (nofItemsInList>=numberOfItem) {
 				items.remove(item);
-				nofItems--;
+				nofItemsInList--;
 				numberOfItem--;
+				totalPrice-=item.getPrice();
 			}
 		}
 	}
 	
 	public int totalPrice() {
-		
-		for (Item item : items) {
-			totalPrice+=item.getPrice();
-		}
 		return totalPrice;
 	}
 	
@@ -68,5 +69,7 @@ public class Basket {
 		b1.addItem(Item.MANAV, 3);
 		int price = b1.totalPrice();
 		System.out.println(price);
+		b1.removeItem(Item.MANAV, 3);
+		System.out.println(b1.totalPrice());
 	}
 }
