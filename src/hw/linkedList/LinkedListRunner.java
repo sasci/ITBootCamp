@@ -4,37 +4,60 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class LinkedListRunner {
 
 	public static void main(String[] args) {
+		runTestCases();
+	}
+
+	public static void runTestCases() {
 		Set<Integer> set=new LinkedHashSet<>();
-		try(Scanner scan=new Scanner(System.in)){
-			int testNumber=scan.nextInt();
 			
-			for (int i = 0; i < testNumber; i++) {
-				
-				int testCase=scan.nextInt();
-	
-				for (int j = 0; j < testCase; j++) {
-					String method=scan.next();
-					if (method.equals("a")) {
-						int number=Integer.parseInt(scan.next());
+		try(Scanner scanner=new Scanner(System.in);) {
+			System.out.println("Please enter number of test cases");
+			int numberOfTestCase=scanner.nextInt();
+
+			for (int i = 0; i < numberOfTestCase; i++) {
+				set.clear();
+				System.out.println("Please enter number of queries");
+				int numberOfQueries=scanner.nextInt();
+			
+				for (int j = 0; j < numberOfQueries; j++) {
+					char querySymbol=scanner.next().charAt(0);
+					if (querySymbol=='a') {
+						int number=scanner.nextInt();
 						set.add(number);
-					}else if(method.equals("b")) {
-						List<Integer> list=set.stream().sorted().collect(Collectors.toList());
-						System.out.println(list);
-					}else if (method.equals("c")) {
-						int number=Integer.parseInt(scan.next());
+					}
+					else if (querySymbol=='b') {
+						Set<Integer> treeSet=new TreeSet<>(set);
+						treeSet.forEach(n->System.out.print(n+" "));
+					}
+					else if (querySymbol=='c') {
+						int number=scanner.nextInt();
 						set.remove(number);
-					}else if (method.equals("f"))  {
-						System.out.println(set);
+					}
+					else if (querySymbol=='d') {
+						int number=scanner.nextInt();
+						int isPresent=set.contains(number)?1:-1;
+						System.out.print(isPresent+" ");
+					}
+					else if (querySymbol=='e') {
+						System.out.println(set.size());
+					}
+					else if (querySymbol=='f') {
+						for (Integer integer : set) {
+							System.out.print(integer+" ");
+						}
 					}else {
-						System.out.println("You entered undefined method symbol");
+						System.out.println("please enter correct query symbol");
 					}
 				}
 			}
-		}catch(Exception e) {}
+		}
+		catch (Exception e) {
+		}
 	}
 }
